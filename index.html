@@ -1,50 +1,99 @@
 <html>
     
 <style>
+  
+    table{
+        width: 550px;
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+        border: 1px solid white;
+    }
+    
+    .submitBotton{
+        width: 60px;
+        height: 25px;
+        tab-size: 30px;
+        vertical-align:middle;
+    }
+    
+    .chooseData{
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
     .slidecontainer {
-      width: 100%; /* Width of the outside container */
+      width: 25%; /* Width of the outside container */
+      margin-left: auto;
+      margin-right: auto;
     }
 
     /* The slider itself */
     .slider {
-      -webkit-appearance: none;  /* Override default CSS styles */
-      appearance: none;
-      width: 100%; /* Full-width */
-      height: 25px; /* Specified height */
-      background: #d3d3d3; /* Grey background */
-      outline: none; /* Remove outline */
-      opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-      -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;  
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
       transition: opacity .2s;
     }
 
-    /* Mouse-over effects */
-    .slider:hover {
-      opacity: 1; /* Fully shown on mouse-over */
-    }
-
-    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
     .slider::-webkit-slider-thumb {
-      -webkit-appearance: none; /* Override default look */
+      -webkit-appearance: none;
       appearance: none;
-      width: 25px; /* Set a specific slider handle width */
-      height: 25px; /* Slider handle height */
-      background: #4CAF50; /* Green background */
-      cursor: pointer; /* Cursor on hover */
+      width: 25px;
+      height: 25px;
+      border-radius: 50%; 
+      background: #4CAF50;
+      cursor: pointer;
     }
 
     .slider::-moz-range-thumb {
-      width: 25px; /* Set a specific slider handle width */
-      height: 25px; /* Slider handle height */
-      background: #4CAF50; /* Green background */
-      cursor: pointer; /* Cursor on hover */
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
     }
     </style>
     
 <body>
 
+<div class = "chooseData">
+    <form id="dateRange">
+      <label>
+        Start date:
+        <input type="date" name="Start" value="2017-06-01"/>
+      </label>
+        <tab> </tab>
+      <label>
+        End date:
+        <input type="date" name="End" value="2017-06-01"/>
+      </label>
+        <input type="submit">
+    </form>
+</div>
+<table>
+    <form id = "inputInfo">
+            <tr><td> <B>Condition:</B>
+                <input type="checkbox" id="Sunny" name="Sunny" class = "checkbox"> Sunny
+                <input type="checkbox" id="Cloudy" name="Cloudy" class = "checkbox"> Cloudy 
+                <input type="checkbox" id="Rainy" name="Rainy" class = "checkbox"> Rainy
+                <input type="checkbox" id="Snowy" name="Snowy" class = "checkbox"> Snowy
+            </td>
+    
+            <td> 
+                <input type="reset" value="Clear" class = "submitBotton"> <input type="submit" value="Search" class = "submitBotton">
+            </td></tr>
+    </form>
+</table>
+
 <div class="slidecontainer">
-  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+  <input type="range" min="0" max="24" value="0" class="slider" id="Hours">
 </div>
 
 </body>
