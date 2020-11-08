@@ -62,6 +62,33 @@
     </style>
     
 <body>
+    
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyC9qJ8F2itOchPOh7zEE0nD7-pfXsUF2L8",
+    authDomain: "project551-1f44c.firebaseapp.com",
+    databaseURL: "https://project551-1f44c.firebaseio.com",
+    projectId: "project551-1f44c",
+    storageBucket: "project551-1f44c.appspot.com",
+    messagingSenderId: "972848915247",
+    appId: "1:972848915247:web:0c0c72ad86c268c2b577da",
+    measurementId: "G-SM3YB9HHPM"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+    
+    
 
 <div class = "chooseData">
     <form id="dateRange">
@@ -95,6 +122,8 @@
 <div class="slidecontainer">
   <input type="range" min="0" max="24" value="0" class="slider" id="Hours">
 </div>
+    
+<p>  </p>
 
 </body>
 </html>
