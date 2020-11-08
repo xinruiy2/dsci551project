@@ -176,7 +176,12 @@
     
     
 <head> 
-    <script type="text/javascript">      
+	<link
+      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+      rel="stylesheet"
+    />
+
+    <script type="text/javascript">
         
         function myfunc(input){
             let cl = document.getElementById("close" + input.toString());
@@ -238,6 +243,64 @@
 				.then(response => response.json())
 				//process the data
 				.then(jsonData=>{
+
+                    var table = [];
+                    var area_dic = {};
+                    for (date in jsonData) {
+                    	for (hour in jsonData[date]) {
+                    		for (area in jsonData[date][hour]) {
+                    			var row = [date, hour, area, jsonData[date][hour][area]];
+                    			table.push(row);
+
+                    			if (area in area_dic){
+                    				area_dic[area] += Number(jsonData[date][hour][area]);
+                    			}
+                    			else{
+                    				area_dic[area] = Number(jsonData[date][hour][area]);
+                    			}
+                    		}
+                    	}
+                    	
+                    }
+
+					grid.updateConfig({
+				        data: table
+				    }).forceRender();
+
+
+					var area_label = [];
+					var area_value = [];
+					for (key in area_dic){
+						area_label.push(key);
+						area_value.push(area_dic[key]);
+					}
+
+					var ctx = document.getElementById('myBarChart').getContext('2d');
+				    var myChart = new Chart(ctx, {
+				        type: 'bar',
+				        data: {
+				            labels: area_label,
+				            datasets: [{
+				                label: "# of Collision",
+				                data: area_value,
+				                backgroundColor: 'rgba(0,191,255, 0.5)',
+				                borderColor: 'rgba(0,191,255, 1)',
+				                borderWidth: 1
+				            }]
+				        },
+				        options: {
+				            scales: {
+				                yAxes: [{
+				                    ticks: {
+				                        beginAtZero: true
+				                    }
+				                }]
+				            }
+				        }
+				    });
+
+
+
 //					items = jsonData.findItemsAdvancedResponse[0].searchResult[0].item
 ////					document.getElementById("counter").innerHTML = items[0].title[0]
 //                    var totalnum = jsonData.findItemsAdvancedResponse[0].paginationOutput[0].totalEntries[0]
@@ -307,13 +370,12 @@
 				.catch(function(err){alert(err)});
                
         }
-        
+
         
     </script>   
 </head>
 
-    <body>
-
+<body>
 
     <table>
         <form id = "inputInfo" method="GET" onsubmit="myfunction(); return false">
@@ -345,7 +407,7 @@
     
     <div id = "counter"> </div>
     
-     <div id = "hDIV" style = "display: none">
+    <div id = "hDIV" style = "display: none">
         <div ID = "counter"> </div>
         <center><B ID = "totalnum" style = "font-size: 35px;"></B></center>
         <hr align="center" width="50%">
@@ -375,13 +437,30 @@
     <div class="slidecontainer">
       <input type="range" min="0" max="24" value="0" class="slider" id="Hours">
     </div>
-    </body>
+
+	
+    <div id="wrapper"></div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
+    <script>
+    	const grid = new gridjs.Grid().updateConfig({
+    					columns: ["Date", "Hour", "Area", "Number of Collision"],
+						data: [],
+						search: true,
+						pagination: {
+							enabled: true,
+							limit: 10
+						}
+					}).render(document.getElementById("wrapper"));
+    </script>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  	<canvas id="myBarChart"></canvas>
+  
+
+</body>
+
 </html>
-
-
-
-
-
 
 
 

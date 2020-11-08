@@ -23,10 +23,12 @@ def getvalue():
     edate = date(int(end[0:4]), int(end[5:7]), int(end[8:]))
     data={}
     dif = edate-sdate
-    response = json.loads(requests.get("https://project551-1f44c.firebaseio.com/traffic.json").text)
-    for i in range(dif.days + 1):
-        day = sdate + timedelta(days=i)
-        data[str(day)] = response[str(day)]
+    response = json.loads(requests.get("https://project551-1f44c.firebaseio.com/traffic.json?orderBy=\"$key\"&startAt=\""+start+"\"&endAt=\""+end+"\"").text)
+    data = response
+    # for i in range(dif.days + 1):
+    #     day = sdate + timedelta(days=i)
+    #     data[str(day)] = response[str(day)]
+
     #print(data)
     # url = ""
     # r = requests.get(url)
