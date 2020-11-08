@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Form</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+<div class="jumbotron">
+<h1>Order Form</h1>
+<form>
+<div class="form-group">
+<label for="fullNameField">Your Full Name: </label>
+<input type="text" class="form-control" id="fullNameField">
+</div>
+<!-- todo: we should add a phone and an email field too so we can contact them back!! -->
+<!-- This would be almost the same as the fullNameField, you have to change a couple things though, can you see what? -->
+<div class="form-group">
+<label for="notesField">What would you like to order?: </label>
+<!-- textarea are like inputs but they're for long text! -->
+<textarea class="form-control" id="notesField"></textarea>
+</div>
+<!-- it's important NOT to use <button> here because that will do something els (that's why we use <a> and make it look like a button using css -->
+<a class="btn btn-default" onclick="submitOrder()">Submit Order</a>
+</form>
+</div>
+<div>
+<h1>Previous Orders</h1>
+<div id="previousOrders">
+<!-- We will use javascript to insert html for the orders list here -->
+<!-- if you don't want orders to show on the homepage, you can duplicate the page and remove this from here, leave the other one with a werid name so only you can find it -->
+</div>
+</div>
+</div>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script>
+//Store information about your firebase so we can connect
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//IMPORTANT: REPLACE THESE WITH YOUR VALUES (these ones won't work)
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+var config = {
+apiKey: "AIzaSyC9qJ8F2itOchPOh7zEE0nD7-pfXsUF2L8",
+authDomain: "project551-1f44c.firebaseapp.com",
+databaseURL: "https://project551-1f44c.firebaseio.com",
+projectId: "project551-1f44c",
+storageBucket: "project551-1f44c.appspot.com",
+messagingSenderId: "G-SM3YB9HHPM"
+};
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//initialize your firebase
+firebase.initializeApp(config);
+var database = firebase.database();
+//create a variable to hold our orders list from firebase
+var firebaseOrdersCollection = database.ref().child('orders');
+//this function is called when the submit button is clicked
+function submitOrder() {
+//Grab order data from the form
+var order = {
+fullName: $('#fullNameField').val(), //another way you could write is $('#myForm [name="fullname"]').
+notes: $('#notesField').val(), //another way you could write is $('#myForm [name="fullname"]').
+};
+//'push' (aka add) your order to the existing list
+firebaseOrdersCollection.push(order); //'orders' is the name of the 'collection' (aka database table)
+};
+//create a 'listener' which waits for changes to the values inside the firebaseOrdersCollection 
+firebaseOrdersCollection.on('value',function(orders){
+//create an empty string that will hold our new HTML
+var allOrdersHtml = "";
+//this is saying foreach order do the following function...
+orders.forEach(function(firebaseOrderReference){
+//this gets the actual data (JSON) for the order.
+var order = firebaseOrderReference.val();
+console.log(order); //check your console to see it!
+//create html for the individual order
+//note: this is hard to make look pretty! Be sure to keep your indents nice :-)
+//IMPORTANT: we use ` here instead of ' (notice the difference?) That allows us to use enters
+var individialOrderHtml =	`<div class='item'>
+												<p>Name: `+order.fullName+`</p>
+												<p>Notes: `+order.notes+`</p>
+											</div>`;
+//add the individual order html to the end of the allOrdersHtml list
+allOrdersHtml = allOrdersHtml + individialOrderHtml;
+});
+//actaull put the html on the page inside the element with the id PreviousOrders
+$('#previousOrders').html(allOrdersHtml);
+//note: an alternative approach would be to create a hidden html element for one order on the page, duplicate it in the forEach loop, unhide it, and replace the information, and add it back. 
+});
+</script>
+</body>
+</html>
