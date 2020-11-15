@@ -68,35 +68,35 @@
     
     
     html {
-      scroll-behavior: smooth;
+        scroll-behavior: smooth;
     }
     
     button:hover {
-                cursor:pointer;
-                background-color: chartreuse;
+    	cursor:pointer;
+        background-color: chartreuse;
     }
     
     .shape{
-          width: 1200px;
-          margin-left: auto;
-          margin-right:auto;
-          margin-bottom: 5px;
-          border: 1px solid black;
-          background-color: #e7e7e7;
-          border-radius: 5px;
-          text-align: left;
-          font-size: 18px
+        width: 1200px;
+        margin-left: auto;
+        margin-right:auto;
+        margin-bottom: 5px;
+        border: 1px solid black;
+        background-color: #e7e7e7;
+        border-radius: 5px;
+        text-align: left;
+        font-size: 18px
     }
     
     .shape:hover{
         box-shadow:0 0 10px #999;
     }
     
-    button{
+    /*button{
         display: block;
         margin-left: auto;
         margin-right: auto;
-    }
+    }*/
     
     img.pic{
         border-color:darkgray;
@@ -176,10 +176,7 @@
     
     
 <head> 
-	<link
-      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
-      rel="stylesheet"
-    />
+	<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
 
     <script type="text/javascript">
         
@@ -230,11 +227,74 @@
             
             var url = "/second?start="+start_date+"&end=" + end_date;
             
-			if (document.getElementById("weather").value == "Sunny" ){
-				url+="&weather=Sunny"
+			if (document.getElementById("weather").value == "sky is clear" ){
+				url+="&weather=sky is clear"
 			}
-			else if (document.getElementById("weather").value == "Cloudy"){
-				url+="&weather=Cloudy"
+			else if (document.getElementById("weather").value == "mist"){
+				url+="&weather=mist"
+			}
+			else if (document.getElementById("weather").value == "few clouds"){
+				url+="&weather=few clouds"
+			}
+			else if (document.getElementById("weather").value == "overcast clouds"){
+				url+="&weather=overcast clouds"
+			}
+			else if (document.getElementById("weather").value == "scattered clouds"){
+				url+="&weather=scattered clouds"
+			}
+			else if (document.getElementById("weather").value == "broken clouds"){
+				url+="&weather=broken clouds"
+			}
+			else if (document.getElementById("weather").value == "light rain"){
+				url+="&weather=light rain"
+			}
+			else if (document.getElementById("weather").value == "thunderstorm with rain"){
+				url+="&weather=thunderstorm with rain"
+			}
+			else if (document.getElementById("weather").value == "moderate rain"){
+				url+="&weather=moderate rain"
+			}
+			else if (document.getElementById("weather").value == "thunderstorm"){
+				url+="&weather=thunderstorm"
+			}
+			else if (document.getElementById("weather").value == "shower rain"){
+				url+="&weather=shower rain"
+			}
+			else if (document.getElementById("weather").value == "smoke"){
+				url+="&weather=smoke"
+			}
+			else if (document.getElementById("weather").value == "drizzle"){
+				url+="&weather=drizzle"
+			}
+			else if (document.getElementById("weather").value == "light intensity drizzle"){
+				url+="&weather=light intensity drizzle"
+			}
+			else if (document.getElementById("weather").value == "heavy intensity rain"){
+				url+="&weather=heavy intensity rain"
+			}
+			else if (document.getElementById("weather").value == "light intensity shower rain"){
+				url+="&weather=light intensity shower rain"
+			}
+			else if (document.getElementById("weather").value == "very heavy rain"){
+				url+="&weather=very heavy rain"
+			}
+			else if (document.getElementById("weather").value == "thunderstorm with light rain"){
+				url+="&weather=thunderstorm with light rain"
+			}
+			else if (document.getElementById("weather").value == "proximity thunderstorm"){
+				url+="&weather=proximity thunderstorm"
+			}
+			else if (document.getElementById("weather").value == "thunderstorm with heavy rain"){
+				url+="&weather=thunderstorm with heavy rain"
+			}
+			else if (document.getElementById("weather").value == "squalls"){
+				url+="&weather=squalls"
+			}
+			else if (document.getElementById("weather").value == "dust"){
+				url+="&weather=dust"
+			}
+			else if (document.getElementById("weather").value == "proximity shower rain"){
+				url+="&weather=proximity shower rain"
 			}
             document.getElementById("counter").innerHTML = url
             
@@ -267,7 +327,6 @@
 				        data: table
 				    }).forceRender();
 
-
 					var area_label = [];
 					var area_value = [];
 					for (key in area_dic){
@@ -275,30 +334,14 @@
 						area_value.push(area_dic[key]);
 					}
 
-					var ctx = document.getElementById('myBarChart').getContext('2d');
-				    var myChart = new Chart(ctx, {
-				        type: 'bar',
-				        data: {
-				            labels: area_label,
-				            datasets: [{
-				                label: "# of Collision",
-				                data: area_value,
-				                backgroundColor: 'rgba(0,191,255, 0.5)',
-				                borderColor: 'rgba(0,191,255, 1)',
-				                borderWidth: 1
-				            }]
-				        },
-				        options: {
-				            scales: {
-				                yAxes: [{
-				                    ticks: {
-				                        beginAtZero: true
-				                    }
-				                }]
-				            }
-				        }
-				    });
 
+					myBarChart.data.labels = area_label;
+				    myBarChart.data.datasets.forEach((dataset) => {
+					    dataset.data = area_value
+					});
+				    myBarChart.update();
+
+					
 
 
 //					items = jsonData.findItemsAdvancedResponse[0].searchResult[0].item
@@ -394,8 +437,32 @@
 
         <tr><td> <B>Sort by:</B>   
             <select name="weather" id="weather">
-                <option value="Sunny">Sunny </option>
-                <option value="Cloudy">Cloudy </option>
+                <option value="sky is clear">sky is clear </option>
+                <option value="mist">mist </option>
+                <option value="fog">fog </option>
+                <option value="haze">haze </option>
+                <option value="few clouds">few clouds </option>
+                <option value="overcast clouds">overcast clouds </option>
+                <option value="scattered clouds">scattered clouds </option>
+                <option value="broken clouds">broken clouds </option>
+                <option value="light rain">light rain </option>
+                <option value="thunderstorm with rain">thunderstorm with rain </option>
+                <option value="moderate rain">moderate rain </option>
+                <option value="thunderstorm">thunderstorm </option>
+                <option value="shower rain">shower rain </option>
+                <option value="smoke">smoke </option>
+                <option value="drizzle">drizzle </option>
+                <option value="light intensity drizzle">light intensity drizzle </option>
+                <option value="heavy intensity rain">heavy intensity rain </option>
+                <option value="light intensity shower rain">light intensity shower rain </option>
+                <option value="very heavy rain">very heavy rain </option>
+                <option value="thunderstorm with light rain">thunderstorm with light rain </option>
+                <option value="proximity thunderstorm">proximity thunderstorm </option>
+                <option value="thunderstorm with heavy rain">thunderstorm with heavy rain </option>
+                <option value="squalls">squalls </option>
+                <option value="dust">dust </option>
+                <option value="proximity shower rain">proximity shower rain </option>
+
             </select>
         </td></tr>
 
@@ -439,28 +506,67 @@
     </div>
 
 	
-    <div id="wrapper"></div>
-    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
-    <script>
-    	const grid = new gridjs.Grid().updateConfig({
-    					columns: ["Date", "Hour", "Area", "Number of Collision"],
-						data: [],
-						search: true,
-						pagination: {
-							enabled: true,
-							limit: 10
-						}
-					}).render(document.getElementById("wrapper"));
-    </script>
+	<div align="center">
+		<div id="wrapper" align="center" style="display: inline-block; vertical-align: top; margin-right: 30px;"></div>
+	    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
+	    <script>
+	    	const grid = new gridjs.Grid().updateConfig({
+				columns: ["Date", "Hour", "Area", "Number of Collision"],
+				data: [],
+				sort: true,
+				width: 'auto',
+				search: {
+					enabled: true
+				},
+				pagination: {
+					enabled: true,
+					limit: 10
+					// summary: false
+				},
+				style: {
+				    table: {
+				      	'font-size': '10px',
+				      	'align': 'center'
+				    },
+				    footer: {
+				    	'overflow': 'auto'
+				    }
+				}
+			}).render(document.getElementById("wrapper"));
+	    </script>
 
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  	<canvas id="myBarChart"></canvas>
-  
+	    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<div class="chart-container" style="position: relative; margin:0 auto; display: inline-block; vertical-align: top;">
+	    	<canvas id="myBarChart"></canvas>
+		</div>
+	  	<script>
+	  		var ctx = document.getElementById('myBarChart').getContext('2d');
+		    var myBarChart = new Chart(ctx, {
+		        type: 'bar',
+		        data: {
+		            labels: ['No Data'],
+		            datasets: [{
+		                label: "# of Collision",
+		                data: [0],
+		                backgroundColor: 'rgba(0,191,255, 0.5)',
+		                borderColor: 'rgba(0,191,255, 1)',
+		                borderWidth: 1
+		            }]
+		        },
+		        options: {
+		            scales: {
+		                yAxes: [{
+		                    ticks: {
+		                        beginAtZero: true
+		                    }
+		                }]
+		            }
+		        }
+		    });
+		    myBarChart.canvas.parentNode.style.width = '500px';
+  		</script>
+	</div>
 
 </body>
 
 </html>
-
-
-
