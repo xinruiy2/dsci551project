@@ -1,5 +1,5 @@
 <html>
-    
+
 <style>
     .center {
         display: block;
@@ -21,61 +21,61 @@
       border: 1px solid black;
       text-align: center;
     }
-    
+
     select {
         width: 200px;
         height: 27px;
-        vertical-align:text-bottom;  
+        vertical-align:text-bottom;
     }
-    
+
     input.text{
         width: 200px;
         height: 27px;
         vertical-align:text-bottom;
     }
-    
+
     input.textRange{
         width: 50px;
         height: 27px;
         vertical-align:text-bottom;
     }
-    
+
     input.checkbox{
         width: 20px;
         height: 20px;
         vertical-align:text-bottom;
     }
-    
+
     .submitBotton{
         width: 60px;
         height: 25px;
         tab-size: 30px;
         vertical-align:middle;
     }
-    
+
     input[type="submit"]:hover, input[type="reset"]:hover {
                 cursor:pointer;
                 background-color: chartreuse;
     }
-    
+
 
     input[type=number]::-webkit-inner-spin-button {
         opacity: 1
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     html {
       scroll-behavior: smooth;
     }
-    
+
     button:hover {
                 cursor:pointer;
                 background-color: chartreuse;
     }
-    
+
     .shape{
           width: 1200px;
           margin-left: auto;
@@ -87,17 +87,17 @@
           text-align: left;
           font-size: 18px
     }
-    
+
     .shape:hover{
         box-shadow:0 0 10px #999;
     }
-    
+
     button{
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     img.pic{
         border-color:darkgray;
         width: 120px;
@@ -107,33 +107,33 @@
         margin-right: 30px;
         float: left;
     }
-    
+
     img.pic:hover{
-        transform: scale(1.5); 
+        transform: scale(1.5);
     }
-    
+
     B.s1{
         margin-left: 50px;
     }
-    
+
     B.s2{
         margin-left: 180px;
     }
-    
+
     B.s3{
         margin-left: 50px;
         font-weight: normal;
     }
-    
+
      B.s4{
         margin-left: 180px;
         font-weight: normal;
     }
-    
+
     div.all{
         display: none;
     }
-        
+
     /* The slider itself */
     .slidecontainer {
       width: 25%; /* Width of the outside container */
@@ -145,7 +145,7 @@
       -webkit-appearance: none;
       width: 100%;
       height: 15px;
-      border-radius: 5px;  
+      border-radius: 5px;
       background: #d3d3d3;
       outline: none;
       opacity: 0.7;
@@ -158,7 +158,7 @@
       appearance: none;
       width: 25px;
       height: 25px;
-      border-radius: 50%; 
+      border-radius: 50%;
       background: #4CAF50;
       cursor: pointer;
     }
@@ -170,19 +170,19 @@
       background: #4CAF50;
       cursor: pointer;
     }
-    
-    
-</style>    
-    
-    
-<head> 
+
+
+</style>
+
+
+<head>
 	<link
       href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
       rel="stylesheet"
     />
 
     <script type="text/javascript">
-        
+
         function myfunc(input){
             let cl = document.getElementById("close" + input.toString());
             let part = document.getElementById("smhide" + input.toString());
@@ -197,39 +197,21 @@
                 lc.style.display = "none";
             }
         }
-        
-//        function myFunction() {
-//          var x = document.getElementById("myDIV");
-//          var z = document.getElementById("myHDIV");
-//          var y = document.getElementById("showClick");
-//          if (x.style.display === "none") {
-//              y.innerHTML = "Show Less";
-//              z.style.display = "block";
-//              x.style.display = "block";
-//              window.scrollTo(0, 4000);
-//          } else {
-//              window.scrollTo(0, 0);
-//              y.innerHTML = "Show More";
-//              z.style.display = "none";
-//              x.style.display = "none";
-//              window.scrollTo(0, 0);
-//          }
-//        }
-//        
+
         function hideall(){
             var k = document.getElementById("hDIV");
             var t = document.getElementById("allDIV");
             k.style.display = "none";
             t.style.display = "none";
         }
-        
-        
+
+
         function myfunction(){
             var start_date = document.getElementById("start").value;
             var end_date = document.getElementById("end").value;
-            
+
             var url = "/second?start="+start_date+"&end=" + end_date;
-            
+
 			if (document.getElementById("weather").value == "sky is clear" ){
 				url+="&weather=sky is clear"
 			}
@@ -299,9 +281,9 @@
 			else if (document.getElementById("weather").value == "proximity shower rain"){
 				url+="&weather=proximity shower rain"
 			}
-            document.getElementById("counter").innerHTML = url
-            
-            
+            // document.getElementById("counter").innerHTML = url
+
+
 			fetch(url)
 				.then(response => response.json())
 				//process the data
@@ -323,7 +305,7 @@
                     			}
                     		}
                     	}
-                    	
+
                     }
 
 					grid.updateConfig({
@@ -361,88 +343,20 @@
 				            }
 				        }
 				    });
-
-
-
-//					items = jsonData.findItemsAdvancedResponse[0].searchResult[0].item
-////					document.getElementById("counter").innerHTML = items[0].title[0]
-//                    var totalnum = jsonData.findItemsAdvancedResponse[0].paginationOutput[0].totalEntries[0]
-//                    if(totalnum == 0){
-//                        document.getElementById("totalnum").innerHTML = "No Results found"
-//                        var k = document.getElementById("hDIV");
-//                        k.style.display = "block";  
-//                        return; 
-//                    }else{
-//                        document.getElementById("totalnum").innerHTML = totalnum.toString() + " Results found"
-//                        var k = document.getElementById("hDIV");
-//                        var t = document.getElementById("allDIV");
-//                        k.style.display = "block";
-//                        t.style.display = "block";
-//                    }
-//                    for(i = 0; i<10; i++){
-//                        if(items[i].galleryURL[0] == null){
-//                            document.getElementById("image"+ i.toString()).src = "notfound.jpg"
-//                        }else{
-//                            document.getElementById("image"+ i.toString()).src = items[i].galleryURL[0];   
-//                        }
-//                        document.getElementById("title" + i.toString()).innerHTML = items[i].title[0];
-//                        document.getElementById("titleh" + i.toString()).href = items[i].viewItemURL[0];
-//                        document.getElementById("iconh" + i.toString()).href = items[i].viewItemURL[0];
-//                        document.getElementById("category" + i.toString()).innerHTML = items[i].primaryCategory[0].categoryName[0]
-//                        
-//                        if(items[i].condition){
-//                            document.getElementById("condition" + i.toString()).innerHTML = "Condition: " + items[i].condition[0].conditionDisplayName[0];
-//                        }else{
-//                            document.getElementById("condition" + i.toString()).innerHTML = "Condition: New";
-//                        }
-//                        
-//                        
-//                        if(items[i].returnsAccepted[0] == "false"){
-//                            document.getElementById("ret" + i.toString()).innerHTML = "does not accept returns"
-//                        }else{
-//                            document.getElementById("ret" + i.toString()).innerHTML = "accepts"
-//                        }
-//                        
-//                        document.getElementById("price" + i.toString()).innerHTML = "Price: $" + items[i].sellingStatus[0].convertedCurrentPrice[0].__value__
-//                        
-//                        document.getElementById("loc" + i.toString()).innerHTML = "From " + items[i].location[0]
-//                        
-//                        var ship = ""
-//                        var shipcost = 0
-//                        if(items[i].shippingInfo){
-//                            if(items[i].shippingInfo[0].shippingServiceCost){
-//                                shipcost = items[i].shippingInfo[0].shippingServiceCost[0].__value__
-//                            }
-//                        }
-//                        
-//                        if(shipcost == 0){
-//                            ship += "Free Shipping"
-//                        }else{
-//                            ship += "No Free Shipping" 
-//                            document.getElementById("price" + i.toString()).innerHTML += "(+ $" + shipcost + " for shipping)"
-//                        }
-//                        
-//                        if(items[i].shippingInfo[0].expeditedShipping[0] == true){
-//                            ship += "-- Expedited Shipping available"
-//                        }
-//                        document.getElementById("ship"+i.toString()).innerHTML = ship
-//                    }
-//                    
-//                    
 				})
 				.catch(function(err){alert(err)});
-               
+
         }
 
-        
-    </script>   
+
+    </script>
 </head>
 
 <body>
 
     <table>
         <form id = "inputInfo" method="GET" onsubmit="myfunction(); return false">
-        <tr><td> 
+        <tr><td>
             <label>
                 <B>Start date:</B>
                 <input type="date" id = "start" name="Start" value="2017-06-01"/>
@@ -455,7 +369,7 @@
         </td></tr>
 
 
-        <tr><td> <B>Sort by:</B>   
+        <tr><td> <B>Sort by:</B>
             <select name="weather" id="weather">
                 <option value="sky is clear">sky is clear </option>
                 <option value="mist">mist </option>
@@ -491,18 +405,17 @@
             </td></tr>
         </form>
     </table>
-    
-    <div id = "counter"> </div>
-    
+
+    <!-- <div id = "counter"> </div> -->
+
     <div id = "hDIV" style = "display: none">
-        <div ID = "counter"> </div>
         <center><B ID = "totalnum" style = "font-size: 35px;"></B></center>
         <hr align="center" width="50%">
-        </div>     
-        <div id = "allDIV" style= "display: none">  
+        </div>
+        <div id = "allDIV" style= "display: none">
         <FIELDSET class = "shape" onclick = "myfunc(0)">
             <span id="close0" style="float:right; cursor: pointer; pointer-events: none; display: none;">❌</span>
-            <img class = "pic" ID = "image0" border="2"> 
+            <img class = "pic" ID = "image0" border="2">
             <div style="display: inline-block; vertical-align: baseline">
                 <br>
                 <A ID = "titleh0" target="_blank"> <B ID = "title0"> </B></A>
@@ -518,14 +431,9 @@
 
         </FIELDSET>
         </div>
-    
-        <br>
-        
-    <div class="slidecontainer">
-      <input type="range" min="0" max="24" value="0" class="slider" id="Hours">
-    </div>
 
-	
+        <br>
+
     <div id="wrapper"></div>
     <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
     <script>
@@ -543,11 +451,8 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   	<canvas id="myBarChart"></canvas>
-  
+
 
 </body>
 
 </html>
-
-
-
