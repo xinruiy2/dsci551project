@@ -179,6 +179,11 @@
 
     <script type="text/javascript">
 
+    	search_data = [];
+    	area_label = [];
+    	area_value = [];
+
+
         function myfunc(input){
             let cl = document.getElementById("close" + input.toString());
             let part = document.getElementById("smhide" + input.toString());
@@ -285,7 +290,6 @@
 				.then(response => response.json())
 				//process the data
 				.then(jsonData=>{
-
                     var table = [];
                     var area_dic = {};
                     for (date in jsonData) {
@@ -304,13 +308,15 @@
                     	}
 
                     }
+                    search_data = table
 
 					grid.updateConfig({
 				        data: table
 				    }).forceRender();
 
-					var area_label = [];
-					var area_value = [];
+
+					area_label = [];
+					area_value = [];
 					for (key in area_dic){
 						area_label.push(key);
 						area_value.push(area_dic[key]);
@@ -322,34 +328,79 @@
 					});
 				    myBarChart.update();
 
-			
-					var ctx = document.getElementById('myBarChart').getContext('2d');
-				    var myChart = new Chart(ctx, {
-				        type: 'bar',
-				        data: {
-				            labels: area_label,
-				            datasets: [{
-				                label: "# of Collision",
-				                data: area_value,
-				                backgroundColor: 'rgba(0,191,255, 0.5)',
-				                borderColor: 'rgba(0,191,255, 1)',
-				                borderWidth: 1
-				            }]
-				        },
-				        options: {
-				            scales: {
-				                yAxes: [{
-				                    ticks: {
-				                        beginAtZero: true
-				                    }
-				                }]
-				            }
-				        }
-				    });
+				    myPieChart.data.labels = area_label;
+				    myPieChart.data.datasets.forEach((dataset) => {
+					    dataset.data = area_value
+					});
+				    myPieChart.update();
+
 				})
 				.catch(function(err){alert(err)});
 
         }
+
+        function filterfunction(){
+        	hour = document.getElementById("hour").value;
+        	data = search_data;
+        	f_data = []
+        	var area_dic = {};
+
+        	data.forEach((item,index,array)=>{
+        		if (item[1] == hour){
+        			f_data.push(item);
+        			// document.getElementById("tmd").innerHTML = item;
+        			area = item[2];
+        			if (area in area_dic){
+        				area_dic[area] += item[3];
+        			}
+        			else{
+        				area_dic[area] = item[3];
+        			}
+        		}
+			})
+
+        	grid.updateConfig({
+				data: f_data
+			}).forceRender();
+			
+			var f_area_label = [];
+			var f_area_value = [];
+			for (key in area_dic){
+				f_area_label.push(key);
+				f_area_value.push(area_dic[key]);
+			}
+
+			myBarChart.data.labels = area_label;
+		    myBarChart.data.datasets.forEach((dataset) => {
+			    dataset.data = f_area_value
+			});
+		    myBarChart.update();
+
+		    myPieChart.data.labels = area_label;
+		    myPieChart.data.datasets.forEach((dataset) => {
+			    dataset.data = f_area_value
+			});
+		    myPieChart.update();
+		}
+
+		function nofilterfunction(){
+			grid.updateConfig({
+		        data: search_data
+		    }).forceRender();
+
+
+        	myBarChart.data.labels = area_label;
+		    myBarChart.data.datasets.forEach((dataset) => {
+			    dataset.data = area_value
+			});
+		    myBarChart.update();
+
+		    myPieChart.data.labels = area_label;
+		    myPieChart.data.datasets.forEach((dataset) => {
+			    dataset.data = area_value
+			});
+		    myPieChart.update();
+		}
 
     </script>
 </head>
@@ -438,66 +489,130 @@
 
 	
 	<div align="center">
-		<div id="wrapper" align="center" style="display: inline-block; vertical-align: top; margin-right: 30px;"></div>
-	    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
-	    <script>
-	    	const grid = new gridjs.Grid().updateConfig({
-				columns: ["Date", "Hour", "Area", "Number of Collision"],
-				data: [],
-				sort: true,
-				width: 'auto',
-				search: {
-					enabled: true
-				},
-				pagination: {
-					enabled: true,
-					limit: 10
-					// summary: false
-				},
-				style: {
-				    table: {
-				      	'font-size': '10px',
-				      	'align': 'center'
-				    },
-				    footer: {
-				    	'overflow': 'auto'
-				    }
-				}
-			}).render(document.getElementById("wrapper"));
-	    </script>
+		<div style="display: inline-block; vertical-align: top; margin-right: 30px;">
+			<div id="wrapper"></div>
+		    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
+		    <script>
+		    	const grid = new gridjs.Grid().updateConfig({
+					columns: ["Date", "Hour", "Area", "Number of Collision"],
+					data: [],
+					sort: true,
+					width: 'auto',
+					search: {
+						enabled: true
+					},
+					pagination: {
+						enabled: true,
+						limit: 10
+						// summary: false
+					},
 
-	    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-		<div class="chart-container" style="position: relative; margin:0 auto; display: inline-block; vertical-align: top;">
-	    	<canvas id="myBarChart"></canvas>
+					style: {
+					    table: {
+					      	'font-size': '10px',
+					      	'align': 'center'
+					    }
+					    // footer: {
+					    // 	'overflow': 'auto'
+					    // }
+					}
+				}).render(document.getElementById("wrapper"));
+		    </script>
+
+		    <div>
+		    	<B>Filted by hour: </B>
+        		<select name="hour" id="hour" style="width: 60px; margin-top: 10px;">
+	                <option value="00">00</option>
+	                <option value="01">01 </option>
+	                <option value="02">02 </option>
+	                <option value="03">03 </option>
+	                <option value="04">04 </option>
+	                <option value="05">05 </option>
+	                <option value="06">06 </option>
+	                <option value="07">07 </option>
+	                <option value="08">08 </option>
+	                <option value="09">09 </option>
+	                <option value="10">10 </option>
+	                <option value="11">11 </option>
+	                <option value="12">12 </option>
+	                <option value="13">13 </option>
+	                <option value="14">14 </option>
+	                <option value="15">15 </option>
+	                <option value="16">16 </option>
+	                <option value="17">17 </option>
+	                <option value="18">18 </option>
+	                <option value="19">19 </option>
+					<option value="20">20 </option>
+	                <option value="21">21 </option>
+	                <option value="22">22 </option>
+	                <option value="23">23 </option>
+	            </select>
+        		<button onclick="filterfunction()">Filter</button>
+        		<button onclick="nofilterfunction()">Clear</button>
+		    </div>
+		
+		<!-- <div id="tmd"></div> -->
 		</div>
-	  	<script>
-	  		var ctx = document.getElementById('myBarChart').getContext('2d');
-		    var myBarChart = new Chart(ctx, {
-		        type: 'bar',
-		        data: {
-		            labels: ['No Data'],
-		            datasets: [{
-		                label: "# of Collision",
-		                data: [0],
-		                backgroundColor: 'rgba(0,191,255, 0.5)',
-		                borderColor: 'rgba(0,191,255, 1)',
-		                borderWidth: 1
-		            }]
-		        },
-		        options: {
-		            scales: {
-		                yAxes: [{
-		                    ticks: {
-		                        beginAtZero: true
-		                    }
-		                }]
-		            }
-		        }
-		    });
-		    myBarChart.canvas.parentNode.style.width = '500px';
-  		</script>
+
+
+	    <div class="chart-container"  style="position: relative; margin:0 auto; display: inline-block; vertical-align: top;"> 
+		    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	    	<canvas id="myBarChart"></canvas>
+		  	<script>
+		  		var color = ['rgba(255, 128, 128)', 'rgba(255, 159, 128)','rgba(255, 191, 128)','rgba(255, 223, 128)','rgba(255, 255, 128)','rgba(223, 255, 128)','rgba(191, 255, 128)','rgba(159, 255, 128)','rgba(128, 255, 128)','rgba(128, 255, 159)','rgba(128, 255, 191)','rgba(128, 255, 223)','rgba(128, 255, 255)'	,'rgba(128, 223, 255)','rgba(128, 204, 255)','rgba(128, 191, 255)','rgba(128, 159, 255)','rgba(255, 128, 255)','rgba(255, 128, 223)','rgba(255, 128, 191)', 'rgba(255, 128, 159)', 'rgba(255, 128, 128)'];
+		  		var ctx1 = document.getElementById('myBarChart').getContext('2d');
+			    var myBarChart = new Chart(ctx1, {
+			        type: 'bar',
+			        data: {
+			            labels: ['No Data'],
+			            datasets: [{
+			                label: "# of Collision",
+			                data: [0],
+			                backgroundColor: color,
+			                // borderColor: 'rgba(50,191,255)',
+			                borderWidth: 1
+			            }]
+			        },
+			        options: {
+			            scales: {
+			                yAxes: [{
+			                    ticks: {
+			                        beginAtZero: true
+			                    }
+			                }]
+			            },
+			            layout: {
+				            padding: {
+				                left: 40,
+				                right: 50,
+				                top: 0,
+				                bottom: 0
+				            }
+				        }
+			        }
+			    });
+			    myBarChart.canvas.parentNode.style.width = '600px';
+	  		</script>
+		
+	    	<canvas id="myPieChart" style="margin-top: 30px;"></canvas>
+			<script>
+		  		var ctx2 = document.getElementById('myPieChart').getContext('2d');
+			    var myPieChart = new Chart(ctx2, {
+			        type: 'doughnut',
+			        data: {
+			            labels: ['No Data'],
+			            datasets: [{
+			                data: [0],
+			                backgroundColor: color,
+			                // borderColor: 'rgba(0,191,255, 1)',
+			                borderWidth: 1
+			            }]
+			        },
+			    });
+			    myPieChart.canvas.parentNode.style.width = '600px';
+	  		</script>
+	  	</div>
 	</div>
 
 </body>
-
 </html>
