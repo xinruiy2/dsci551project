@@ -13,12 +13,12 @@
         margin-left: auto;
         margin-right: auto;
         border-collapse: collapse;
-        border: 1px solid black;
+        /*border: 1px solid #CCFFFF;*/
     }
 
     th,td {
       font-size: 170%;
-      border: 1px solid black;
+      /*border: 1px dotted #99CCFF;*/
       text-align: center;
     }
 
@@ -53,9 +53,15 @@
         vertical-align:middle;
     }
 
+    input[type="submit"], input[type="reset"] {
+        background-color: #99CCFF;
+    	border-color: #FFFFFF;
+    	border-radius: 8px;
+    }
+
     input[type="submit"]:hover, input[type="reset"]:hover {
-                cursor:pointer;
-                background-color: chartreuse;
+        cursor:pointer;
+        background-color: #9999FF;
     }
 
 
@@ -64,16 +70,19 @@
     }
 
 
-
-
-
     html {
         scroll-behavior: smooth;
     }
 
+    button {
+    	background-color: #99CCFF;
+    	border-color: #FFFFFF;
+    	border-radius: 8px;
+    }
+
     button:hover {
-    	cursor:pointer;
-        background-color: chartreuse;
+    	cursor: pointer;
+        background-color: #9999FF;
     }
 
     .shape{
@@ -169,7 +178,13 @@
       border-radius: 50%;
       background: #4CAF50;
       cursor: pointer;
-    }   
+    }
+
+    select{
+    	/*border-color: #99CCFF;*/
+    	border-radius: 4px;
+    	border: 2px solid #99CCFF;
+    }
     
 </style>    
     
@@ -348,7 +363,6 @@
         	data.forEach((item,index,array)=>{
         		if (item[1] == hour){
         			f_data.push(item);
-        			// document.getElementById("tmd").innerHTML = item;
         			area = item[2];
         			if (area in area_dic){
         				area_dic[area] += item[3];
@@ -402,6 +416,12 @@
 		    myPieChart.update();
 		}
 
+		function forcastfunction(){
+			hour = document.getElementById("forcasthour").value;
+			area = document.getElementById("forcastarea").value;
+
+		}
+
     </script>
 </head>
 
@@ -412,12 +432,12 @@
         <tr><td>
             <label>
                 <B>Start date:</B>
-                <input type="date" id = "start" name="Start" value="2017-06-01"/>
+                <input type="date" id = "start" name="Start" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF;" />
               </label>
                 <tab></tab>
               <label>
                 <B>End date:</B>
-                <input type="date" id = "end" name="End" value="2017-06-01"/>
+                <input type="date" id = "end" name="End" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF;"/>
               </label>
         </td></tr>
 
@@ -519,9 +539,9 @@
 				}).render(document.getElementById("wrapper"));
 		    </script>
 
-		    <div>
+		    <div style="height: 30px; margin-top: 20px">
 		    	<B>Filted by hour: </B>
-        		<select name="hour" id="hour" style="width: 60px; margin-top: 10px;">
+        		<select name="hour" id="hour" style="width: 60px; height: 30px; padding-top: : 10px">
 	                <option value="00">00</option>
 	                <option value="01">01 </option>
 	                <option value="02">02 </option>
@@ -547,15 +567,70 @@
 	                <option value="22">22 </option>
 	                <option value="23">23 </option>
 	            </select>
-        		<button onclick="filterfunction()">Filter</button>
-        		<button onclick="nofilterfunction()">Clear</button>
+        		<button onclick="filterfunction()" style="width: 60px; height: 20px; ">Filter</button>
+        		<button onclick="nofilterfunction()" style="width: 60px; height: 20px;">Clear</button>
 		    </div>
 		
-		<!-- <div id="tmd"></div> -->
+			<div>
+				<B>Forcast today: </B>
+				hour:
+				<select name="forcasthour" id="forcasthour" style="width: 60px; margin-top: 40px;">
+	                <option value="00">00</option>
+	                <option value="01">01 </option>
+	                <option value="02">02 </option>
+	                <option value="03">03 </option>
+	                <option value="04">04 </option>
+	                <option value="05">05 </option>
+	                <option value="06">06 </option>
+	                <option value="07">07 </option>
+	                <option value="08">08 </option>
+	                <option value="09">09 </option>
+	                <option value="10">10 </option>
+	                <option value="11">11 </option>
+	                <option value="12">12 </option>
+	                <option value="13">13 </option>
+	                <option value="14">14 </option>
+	                <option value="15">15 </option>
+	                <option value="16">16 </option>
+	                <option value="17">17 </option>
+	                <option value="18">18 </option>
+	                <option value="19">19 </option>
+					<option value="20">20 </option>
+	                <option value="21">21 </option>
+	                <option value="22">22 </option>
+	                <option value="23">23 </option>
+	            </select>
+	            area:
+	            <select name="forcastarea" id="forcastarea" style="width: 120px; margin-top: 10px;">
+	                <option value="77th Street">77th Street</option>
+	                <option value="Central">Central </option>
+	                <option value="Devonshire">Devonshire </option>
+	                <option value="Foothill">Foothill </option>
+	                <option value="Harbor">Harbor </option>
+	                <option value="Hollenbeck">Hollenbeck </option>
+	                <option value="Hollywood">Hollywood </option>
+	                <option value="Mission">Mission </option>
+	                <option value="N Hollywood">N Hollywood </option>
+	                <option value="Newton">Newton </option>
+	                <option value="Northeast">Northeast </option>
+	                <option value="Olympic">Olympic </option>
+	                <option value="Pacific">Pacific </option>
+	                <option value="Rampart">Rampart </option>
+	                <option value="Southeast">Southeast </option>
+	                <option value="Southwest">Southwest </option>
+	                <option value="Topanga">Topanga </option>
+	                <option value="Van Nuys">Van Nuys </option>
+	                <option value="West LA">West LA </option>
+	                <option value="West Valley">West Valley </option>
+					<option value="Wilshire">Wilshire </option>
+	            </select>
+        		<button onclick="forcastfunction()">Forcast</button>
+			</div>
+			<div id="forcastresult"></div>
 		</div>
 
 
-	    <div class="chart-container"  style="position: relative; margin:0 auto; display: inline-block; vertical-align: top;"> 
+	    <div class="chart-container"  style="position: relative; margin:30px auto; display: inline-block; vertical-align: top;"> 
 		    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	    	<canvas id="myBarChart"></canvas>
 		  	<script>
