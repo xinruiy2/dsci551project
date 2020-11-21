@@ -22,7 +22,7 @@ def Merge(dict1, dict2):
     ret = {**dict1, **dict2}
     return ret
 
-@app.route("/second", methods = ['GET'])
+@app.route("/search", methods = ['GET'])
 def getvalue():
 	s = ""
 	start = str(request.args.get('start'))
@@ -45,7 +45,13 @@ def getvalue():
 			for item in cursor:
 				if item[0] == weather:
 					res[date][hour] = response[date][hour]
-	
+
+	pairs = App(res)
+	return pairs
+
+
+@app.route("/predict", methods = ['GET'])
+def predictvalue():
 	#prediction
 	response = requests.get("https://api.openweathermap.org/data/2.5/onecall?lat=34.052231&lon=-118.243683&exclude=current,minutely,daily,alerts&appid=bc21d1789d99977ee484c616fcf9d0aa&print=pretty")
 
@@ -71,8 +77,8 @@ def getvalue():
 	arr = sorted(dict_sort.keys(), key = lambda x: x[1], reverse = True)
 
 	arr = arr[:3]
+	res = {}
 	res["pred"] = arr
-	print(res)
 
 	pairs = App(res)
 	return pairs
