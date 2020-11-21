@@ -3,10 +3,10 @@ import requests
 import json
 import mysql.connector
 from datetime import date, timedelta
-from pyspark import SparkContext, SparkConf
-from pyspark.sql import HiveContext, Row
-from pyspark.sql import SQLContext, Row
-from pyspark.sql.types import IntegerType
+#from pyspark import SparkContext, SparkConf
+#from pyspark.sql import HiveContext, Row
+#from pyspark.sql import SQLContext, Row
+#from pyspark.sql.types import IntegerType
 
 
 app = Flask(__name__, static_url_path = '')
@@ -45,6 +45,35 @@ def getvalue():
 			for item in cursor:
 				if item[0] == weather:
 					res[date][hour] = response[date][hour]
+	
+	#prediction
+	response = requests.get("https://api.openweathermap.org/data/2.5/onecall?lat=34.052231&lon=-118.243683&exclude=current,minutely,daily,alerts&appid=bc21d1789d99977ee484c616fcf9d0aa&print=pretty")
+
+	dict_sort = {}
+
+	for item in response.json()["hourly"]:
+		# print(item['weather'][0]['description'])
+		if item['weather'][0]['description'] in dict_sort:
+		    dict_sort[item['weather'][0]['description']] += 1
+		else:
+		    dict_sort[item['weather'][0]['description']] = 1
+
+	arr = sorted(dict_sort.keys(), key = lambda x: x[1], reverse = True)
+	mode = arr[0]
+	if mode == "clear sky":
+		mode = "sky is clear"
+
+	response = requests.get("https://inf551m.firebaseio.com/project/forcast.json")
+	dict_sort = {}
+	for item in response.json():
+		dict_sort[item] = response.json()[item][mode]
+
+	arr = sorted(dict_sort.keys(), key = lambda x: x[1], reverse = True)
+
+	arr = arr[:3]
+	res["pred"] = arr
+	print(res)
+
 	pairs = App(res)
 	return pairs
 
