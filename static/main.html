@@ -46,17 +46,12 @@
         vertical-align:text-bottom;
     }
 
-    .submitBotton{
-        width: 60px;
-        height: 25px;
-        tab-size: 30px;
-        vertical-align:middle;
-    }
-
     input[type="submit"], input[type="reset"] {
         background-color: #99CCFF;
     	border-color: #FFFFFF;
     	border-radius: 8px;
+    	font-weight: 600;
+    	font-size: 16px;
     }
 
     input[type="submit"]:hover, input[type="reset"]:hover {
@@ -68,7 +63,6 @@
     input[type=number]::-webkit-inner-spin-button {
         opacity: 1
     }
-
 
     html {
         scroll-behavior: smooth;
@@ -226,7 +220,7 @@
             var start_date = document.getElementById("start").value;
             var end_date = document.getElementById("end").value;
 
-            var url = "/second?start="+start_date+"&end=" + end_date;
+            var url = "/search?start="+start_date+"&end=" + end_date;
 
           
 			if (document.getElementById("weather").value == "sky is clear" ){
@@ -348,7 +342,20 @@
 					    dataset.data = area_value
 					});
 				    myPieChart.update();
+				})
+				.catch(function(err){alert(err)});
 
+        }
+
+        function predictfunction(){
+            var url = "/predict";
+
+			fetch(url)
+				.then(response => response.json())
+				//process the data
+				.then(jsonData=>{
+					areas = jsonData['pred']
+				    document.getElementById("forcastresult").innerHTML= areas;
 				})
 				.catch(function(err){alert(err)});
 
@@ -416,16 +423,17 @@
 		    myPieChart.update();
 		}
 
-		function forcastfunction(){
-			hour = document.getElementById("forcasthour").value;
-			area = document.getElementById("forcastarea").value;
-
-		}
+		// function forcastfunction(){
+		// 	hour = document.getElementById("forcasthour").value;
+		// 	area = document.getElementById("forcastarea").value;
+		// }
 
     </script>
 </head>
 
 <body>
+
+	<div align="center" style="width: 100%; height: 120px; line-height: 120px; background: -webkit-linear-gradient(left, rgba(255, 128, 128), rgba(255, 159, 128),rgba(255, 191, 128),rgba(255, 223, 128),rgba(255, 255, 128),rgba(223, 255, 128),rgba(191, 255, 128),rgba(159, 255, 128),rgba(128, 255, 128),rgba(128, 255, 159),rgba(128, 255, 191),rgba(128, 255, 223),rgba(128, 255, 255)	,rgba(128, 223, 255),rgba(128, 204, 255),rgba(128, 191, 255),rgba(128, 159, 255),rgba(255, 128, 255),rgba(255, 128, 223),rgba(255, 128, 191), rgba(255, 128, 159), rgba(255, 128, 128)); font-size: 64px; color: white; font-weight: 700; margin-bottom: 20px;">Los Angeles traffic collision and weather</div>
 
     <table>
         <form id = "inputInfo" method="GET" onsubmit="myfunction(); return false">
@@ -474,39 +482,14 @@
         </td></tr>
 
 
-        <tr><td> <input type="reset" value="Clear" class = "submitBotton" onclick = "hideall()"> <input type="submit" value="Search" class = "submitBotton">
+        <tr><td> <input type="reset" value="Clear" class = "submitButton" onclick = "hideall()"> <input type="submit" value="Search" class = "submitButton">
             </td></tr>
         </form>
     </table>
 
     <!-- <div id = "counter"> </div> -->
 
-    <div id = "hDIV" style = "display: none">
-        <center><B ID = "totalnum" style = "font-size: 35px;"></B></center>
-        <hr align="center" width="50%">
-        </div>
-        <div id = "allDIV" style= "display: none">
-        <FIELDSET class = "shape" onclick = "myfunc(0)">
-            <span id="close0" style="float:right; cursor: pointer; pointer-events: none; display: none;">❌</span>
-            <img class = "pic" ID = "image0" border="2">
-            <div style="display: inline-block; vertical-align: baseline">
-                <br>
-                <A ID = "titleh0" target="_blank"> <B ID = "title0"> </B></A>
-                <br>
-                <p><span> </span><I ID = "category0"></I><A ID = "iconh0" target="_blank"> <img src="redirect.png" width= "15px"><STYLE>A {text-decoration: none;} </STYLE> </A>
-                <p><span ID="condition0"></span><img id="tr0" src="/static/topRatedImage.png" style="display:inline-block; width:22px; height:30px; display:none"></p>
-                <div ID = "smhide0" style = "display: none;">
-                <p> Seller <B ID = "ret0"></B> return </p>
-                <p ID = "ship0"></p>
-                </div>
-                <p><B ID = "price0" style = "float: left"> </B> <I ID = "loc0" style = "display: none;"></I></p>
-            </div>
-
-        </FIELDSET>
-        </div>
-
-        <br>
-
+    <!-- <br> -->
 	
 	<div align="center">
 		<div style="display: inline-block; vertical-align: top; margin-right: 30px;">
@@ -539,7 +522,7 @@
 				}).render(document.getElementById("wrapper"));
 		    </script>
 
-		    <div style="height: 30px; margin-top: 20px">
+		    <div style="height: 30px; margin-top: 20px;">
 		    	<B>Filted by hour: </B>
         		<select name="hour" id="hour" style="width: 60px; height: 30px; padding-top: : 10px">
 	                <option value="00">00</option>
@@ -570,63 +553,11 @@
         		<button onclick="filterfunction()" style="width: 60px; height: 20px; ">Filter</button>
         		<button onclick="nofilterfunction()" style="width: 60px; height: 20px;">Clear</button>
 		    </div>
-		
-			<div>
-				<B>Forcast today: </B>
-				hour:
-				<select name="forcasthour" id="forcasthour" style="width: 60px; margin-top: 40px;">
-	                <option value="00">00</option>
-	                <option value="01">01 </option>
-	                <option value="02">02 </option>
-	                <option value="03">03 </option>
-	                <option value="04">04 </option>
-	                <option value="05">05 </option>
-	                <option value="06">06 </option>
-	                <option value="07">07 </option>
-	                <option value="08">08 </option>
-	                <option value="09">09 </option>
-	                <option value="10">10 </option>
-	                <option value="11">11 </option>
-	                <option value="12">12 </option>
-	                <option value="13">13 </option>
-	                <option value="14">14 </option>
-	                <option value="15">15 </option>
-	                <option value="16">16 </option>
-	                <option value="17">17 </option>
-	                <option value="18">18 </option>
-	                <option value="19">19 </option>
-					<option value="20">20 </option>
-	                <option value="21">21 </option>
-	                <option value="22">22 </option>
-	                <option value="23">23 </option>
-	            </select>
-	            area:
-	            <select name="forcastarea" id="forcastarea" style="width: 120px; margin-top: 10px;">
-	                <option value="77th Street">77th Street</option>
-	                <option value="Central">Central </option>
-	                <option value="Devonshire">Devonshire </option>
-	                <option value="Foothill">Foothill </option>
-	                <option value="Harbor">Harbor </option>
-	                <option value="Hollenbeck">Hollenbeck </option>
-	                <option value="Hollywood">Hollywood </option>
-	                <option value="Mission">Mission </option>
-	                <option value="N Hollywood">N Hollywood </option>
-	                <option value="Newton">Newton </option>
-	                <option value="Northeast">Northeast </option>
-	                <option value="Olympic">Olympic </option>
-	                <option value="Pacific">Pacific </option>
-	                <option value="Rampart">Rampart </option>
-	                <option value="Southeast">Southeast </option>
-	                <option value="Southwest">Southwest </option>
-	                <option value="Topanga">Topanga </option>
-	                <option value="Van Nuys">Van Nuys </option>
-	                <option value="West LA">West LA </option>
-	                <option value="West Valley">West Valley </option>
-					<option value="Wilshire">Wilshire </option>
-	            </select>
-        		<button onclick="forcastfunction()">Forcast</button>
-			</div>
-			<div id="forcastresult"></div>
+
+		    <form id = "forecast" method="GET" onsubmit="predictfunction(); return false" style="margin-top: 50px; margin-bottom: 0;">
+				<input class="forcastButton" type="submit" value="Forcast today's 3 most dangerous area">
+			</form>
+			<div id="forcastresult" style="color: #FF6347; font-weight: 700; margin-top: 10px;"></div>
 		</div>
 
 
@@ -688,6 +619,8 @@
 	  		</script>
 	  	</div>
 	</div>
+
+	<div align="center" style="width: 100%; height: 15px; background: -webkit-linear-gradient(left, rgba(255, 128, 128), rgba(255, 159, 128),rgba(255, 191, 128),rgba(255, 223, 128),rgba(255, 255, 128),rgba(223, 255, 128),rgba(191, 255, 128),rgba(159, 255, 128),rgba(128, 255, 128),rgba(128, 255, 159),rgba(128, 255, 191),rgba(128, 255, 223),rgba(128, 255, 255)	,rgba(128, 223, 255),rgba(128, 204, 255),rgba(128, 191, 255),rgba(128, 159, 255),rgba(255, 128, 255),rgba(255, 128, 223),rgba(255, 128, 191), rgba(255, 128, 159), rgba(255, 128, 128));color: white; margin-top: 30px;"></div>
 
 </body>
 </html>
