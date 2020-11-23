@@ -17,7 +17,7 @@
     }
 
     th,td {
-      font-size: 170%;
+      font-size: 140%;
       /*border: 1px dotted #99CCFF;*/
       text-align: center;
     }
@@ -129,7 +129,7 @@
         font-weight: normal;
     }
 
-     B.s4{
+    B.s4{
         margin-left: 180px;
         font-weight: normal;
     }
@@ -179,6 +179,7 @@
     	/*border-color: #99CCFF;*/
     	border-radius: 4px;
     	border: 2px solid #99CCFF;
+    	height: 27px;
     }
     
 </style>    
@@ -468,20 +469,19 @@
 
     <table>
         <form id = "inputInfo" method="GET" onsubmit="myfunction(); return false">
-        <tr><td>
-            <label>
+        <tr style="height: 47px;"><td>
+            <label style="margin-right: 20px;">
                 <B>Start date:</B>
-                <input type="date" id = "start" name="Start" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF;" />
-              </label>
-                <tab></tab>
-              <label>
+                <input type="date" id = "start" name="Start" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF; height: 27px;" />
+            </label>
+            <label>
                 <B>End date:</B>
-                <input type="date" id = "end" name="End" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF;"/>
-              </label>
+                <input type="date" id = "end" name="End" value="2017-06-01" style="border-radius: 4px; border: 2px solid #99CCFF; height: 27px;"/>
+            </label>
         </td></tr>
 
-
-        <tr><td> <B>Weather:</B>
+        <tr style="height: 47px;"><td> 
+        	<B>Weather:</B>
             <select name="weather" id="weather">
                 <option value="sky is clear">sky is clear </option>
                 <option value="mist">mist </option>
@@ -530,10 +530,10 @@
 		    <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
 		    <script>
 		    	const grid = new gridjs.Grid().updateConfig({
-					columns: ["Date", "Hour", "Area", "Number of Collision"],
+					columns: ["Date", "Hour", "Area", "# of Collision"],
 					data: [],
 					sort: true,
-					width: 'auto',
+					width: '640px',
 					search: {
 						enabled: true
 					},
@@ -545,7 +545,7 @@
 
 					style: {
 					    table: {
-					      	'font-size': '10px',
+					      	'font-size': '9px',
 					      	'align': 'center'
 					    }
 					    // footer: {
@@ -557,7 +557,7 @@
 
 		    <div style="height: 30px; margin-top: 20px;">
 		    	<B>Filtered by hour: </B>
-        		<select name="hour" id="hour" style="width: 60px; height: 30px; padding-top: : 10px">
+        		<select name="hour" id="hour" style="width: 60px; height: 27px; padding-top: : 10px">
 	                <option value="00">00</option>
 	                <option value="01">01 </option>
 	                <option value="02">02 </option>
@@ -588,7 +588,7 @@
 		    </div>
 
 		    <form id = "forecast" method="GET" onsubmit="predictfunction(); return false" style="margin-top: 50px; margin-bottom: 0;">
-				<input class="forcastButton" type="submit" value="Forcast today's 3 most dangerous area" style="width: 340px;">
+				<input class="forcastButton" type="submit" value="Forecast today's 3 most dangerous area" style="width: 340px;">
 				<input type="reset" value="Clear" class = "forcastButton" onclick = "clearforcast()">
 			</form>
 			<div id="forcastresult" style="color: #FF6347; font-weight: 700; margin-top: 10px; height: 40px;"></div>
