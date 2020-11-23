@@ -47,6 +47,7 @@
     }
 
     input[type="submit"], input[type="reset"] {
+    	width: 70px;
         background-color: #99CCFF;
     	border-color: #FFFFFF;
     	border-radius: 8px;
@@ -209,10 +210,22 @@
         }
 
         function hideall(){
-            var k = document.getElementById("hDIV");
-            var t = document.getElementById("allDIV");
-            k.style.display = "none";
-            t.style.display = "none";
+            grid.updateConfig({
+		        data: []
+		    }).forceRender();
+
+
+			myBarChart.data.labels = ['No Data'];
+		    myBarChart.data.datasets.forEach((dataset) => {
+			    dataset.data = []
+			});
+		    myBarChart.update();
+
+		    myPieChart.data.labels = ['No Data'];
+		    myPieChart.data.datasets.forEach((dataset) => {
+			    dataset.data = [0]
+			});
+			myPieChart.update();
         }
 
 
@@ -331,15 +344,30 @@
 						area_value.push(area_dic[key]);
 					}
 
-					myBarChart.data.labels = area_label;
+					if(area_label.length == 0){
+						myBarChart.data.labels = ['No Data'];
+					}
+					else{
+						myBarChart.data.labels = area_label;
+					}
 				    myBarChart.data.datasets.forEach((dataset) => {
 					    dataset.data = area_value
 					});
 				    myBarChart.update();
 
-				    myPieChart.data.labels = area_label;
+				    if(area_label.length == 0){
+						myPieChart.data.labels = ['No Data'];
+				    }
+					else{
+				    	myPieChart.data.labels = area_label;
+					}
 				    myPieChart.data.datasets.forEach((dataset) => {
-					    dataset.data = area_value
+				    	if(area_value.length == 0){
+				    		dataset.data = [0];
+				    	}
+				    	else{
+				    		dataset.data = area_value;
+				    	}
 					});
 				    myPieChart.update();
 				})
@@ -358,7 +386,10 @@
 				    document.getElementById("forcastresult").innerHTML= areas;
 				})
 				.catch(function(err){alert(err)});
+        }
 
+        function clearforcast(){
+        	document.getElementById("forcastresult").innerHTML= "";
         }
 
         function filterfunction(){
@@ -393,13 +424,13 @@
 
 			myBarChart.data.labels = area_label;
 		    myBarChart.data.datasets.forEach((dataset) => {
-			    dataset.data = f_area_value
+			    dataset.data = f_area_value;
 			});
 		    myBarChart.update();
 
 		    myPieChart.data.labels = area_label;
 		    myPieChart.data.datasets.forEach((dataset) => {
-			    dataset.data = f_area_value
+			    dataset.data = f_area_value;
 			});
 		    myPieChart.update();
 		}
@@ -412,13 +443,13 @@
 
         	myBarChart.data.labels = area_label;
 		    myBarChart.data.datasets.forEach((dataset) => {
-			    dataset.data = area_value
+			    dataset.data = area_value;
 			});
 		    myBarChart.update();
 
 		    myPieChart.data.labels = area_label;
 		    myPieChart.data.datasets.forEach((dataset) => {
-			    dataset.data = area_value
+			    dataset.data = area_value;
 			});
 		    myPieChart.update();
 		}
@@ -450,7 +481,7 @@
         </td></tr>
 
 
-        <tr><td> <B>Sort by:</B>
+        <tr><td> <B>Weather:</B>
             <select name="weather" id="weather">
                 <option value="sky is clear">sky is clear </option>
                 <option value="mist">mist </option>
@@ -482,7 +513,9 @@
         </td></tr>
 
 
-        <tr><td> <input type="reset" value="Clear" class = "submitButton" onclick = "hideall()"> <input type="submit" value="Search" class = "submitButton">
+        <tr><td>
+        	<input type="submit" value="Search" class = "submitButton">
+        	<input type="reset" value="Clear" class = "submitButton" onclick = "hideall()">
             </td></tr>
         </form>
     </table>
@@ -523,7 +556,7 @@
 		    </script>
 
 		    <div style="height: 30px; margin-top: 20px;">
-		    	<B>Filted by hour: </B>
+		    	<B>Filtered by hour: </B>
         		<select name="hour" id="hour" style="width: 60px; height: 30px; padding-top: : 10px">
 	                <option value="00">00</option>
 	                <option value="01">01 </option>
@@ -555,9 +588,10 @@
 		    </div>
 
 		    <form id = "forecast" method="GET" onsubmit="predictfunction(); return false" style="margin-top: 50px; margin-bottom: 0;">
-				<input class="forcastButton" type="submit" value="Forcast today's 3 most dangerous area">
+				<input class="forcastButton" type="submit" value="Forcast today's 3 most dangerous area" style="width: 340px;">
+				<input type="reset" value="Clear" class = "forcastButton" onclick = "clearforcast()">
 			</form>
-			<div id="forcastresult" style="color: #FF6347; font-weight: 700; margin-top: 10px;"></div>
+			<div id="forcastresult" style="color: #FF6347; font-weight: 700; margin-top: 10px; height: 40px;"></div>
 		</div>
 
 
@@ -572,7 +606,7 @@
 			        data: {
 			            labels: ['No Data'],
 			            datasets: [{
-			                label: "# of Collision",
+			                label: "Sum of collision of each area",
 			                data: [0],
 			                backgroundColor: color,
 			                // borderColor: 'rgba(50,191,255)',
@@ -610,10 +644,10 @@
 			            datasets: [{
 			                data: [0],
 			                backgroundColor: color,
-			                // borderColor: 'rgba(0,191,255, 1)',
-			                borderWidth: 1
+			                borderWidth: 1,
+			                // borderColor: "#DCDCDC",
 			            }]
-			        },
+			        }
 			    });
 			    myPieChart.canvas.parentNode.style.width = '600px';
 	  		</script>
